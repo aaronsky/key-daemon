@@ -9,16 +9,4 @@
             return result;
         }
     }
-
-    var keys = [];
-    
-    var keyAction = function (e) {
-        e = e || event; //IE Compatibility
-        keys[e.keyCode] = e.type == 'keydown'; //true if keydown event, 
-                                               //false if anything else
-    };
-    
-    document.addEventListener("keydown", keyAction);
-
-    document.addEventListener("keyup", keyAction);
 }());

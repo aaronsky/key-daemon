@@ -1,21 +1,24 @@
-"use strict";
-
 // shim layer with setTimeout fallback
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame    ||
-      function( callback ){
-        window.setTimeout(callback, 1000 / 60);
-      };
-})();
+window.requestAnimFrame = (function () {
+    "use strict";
+    return window.requestAnimationFrame       ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        function (callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+}());
 
-(function() {
+(function () {
+    "use strict";
     var canvas = document.getElementById("game-stage"),
-        context = canvas.getContext('2d');
-    
+        context = canvas.getContext('2d'),
+        level = new Level();
+
     var render = function () {
-        requestAnimFrame(function(){render()});
+        level.update();
+        level.draw(context);
+        window.requestAnimFrame(function () {render(); });
     };
     render.call();
 }());
