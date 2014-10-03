@@ -7,22 +7,25 @@ function Level(playerCount, centerX, centerY) {
         centerX: centerX,
         centerY: centerY
     };
-    this.players = (function (wordList) {
+    this.players = (function (randomWordCallback) {
         var result = [],
             i = 0;
         for (i; i < playerCount; i += 1) {
             var player = new Player(i, centerX, centerY);
-            player.setWord(wordList[i]);
+            player.setWord(randomWordCallback());
             result.push(player);
         }
         return result;
-    }(this.wordList));
+    }(this.randomWordFromList.bind(this)));
 }
 Level.prototype = {constructor: Level};
 Level.prototype.update = function () {
     //update player score
     //check input
     this.players.forEach(function (player) { player.update(); });
+};
+Level.prototype.randomWordFromList = function () {
+    return this.wordList[Math.floor(Math.random() * (this.wordList.length - 0 + 1) + 0)];
 };
 Level.prototype.draw = function (ctx) {
     this.players.forEach(function (player) { 

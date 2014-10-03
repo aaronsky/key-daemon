@@ -35,6 +35,10 @@ Player.prototype.setWord = function (newWord) {
 
 Player.prototype.update = function () {
     InputManager.keyHandle(this.currentWord);
+    if(this.currentWord.solved) {
+        this.setWord(Core.getInstance().currentLevel.randomWordFromList());
+        this.score += 100;
+    }
 };
 
 Player.prototype.draw = function (ctx) {
@@ -43,7 +47,7 @@ Player.prototype.draw = function (ctx) {
     this.currentWord.draw(ctx);
     ctx.fillStyle = '#000';
     ctx.font = 'normal 14pt Calibri';
-    //super hardcoded, scale to modulo at some point
+    //super hardcoded, switch to modulo at some point
     var scoreRect = (function (id, centerX, centerY) {
         var rect = {};
         switch (id) {
