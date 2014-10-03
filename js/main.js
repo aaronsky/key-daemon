@@ -11,13 +11,15 @@ window.requestAnimFrame = (function () {
 
 (function () {
     "use strict";
-    var canvas = document.getElementById("game-stage"),
-        context = canvas.getContext('2d'),
-        level = new Level();
+    var canvas = document.getElementById("game-stage");
+    var context = canvas.getContext('2d');
+    var level = new Level(4);
+    var centerX = canvas.width / 2,
+        centerY = canvas.height / 2;
 
     var render = function () {
         level.update();
-        level.draw(context);
+        level.draw(context, centerX, centerY);
         window.requestAnimFrame(function () {render(); });
     };
     render.call();
