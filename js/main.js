@@ -1,26 +1,18 @@
-// shim layer with setTimeout fallback
-window.requestAnimFrame = (function () {
-    "use strict";
-    return window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        function (callback) {
-            window.setTimeout(callback, 1000 / 60);
-        };
-}());
-
 (function () {
     "use strict";
     var canvas = document.getElementById("game-stage");
     var context = canvas.getContext('2d');
-    var level = new Level(4);
+    var playerCount = window.prompt('player count',4) || 4;
     var centerX = canvas.width / 2,
         centerY = canvas.height / 2;
+    var level = new Level(playerCount, centerX, centerY);
 
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
     var render = function () {
         level.update();
-        level.draw(context, centerX, centerY);
-        window.requestAnimFrame(function () {render(); });
+        level.draw(context);
+        window.requestAnimationFrame(function () {render(); });
     };
     render.call();
 }());

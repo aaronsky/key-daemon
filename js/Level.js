@@ -1,15 +1,22 @@
 "use strict";
-function Level(playerCount) {
+function Level(playerCount, centerX, centerY) {
     this.wordList = WordManager.generateWords();
-    this.players = (function () {
+    this.rect = {
+        width: centerX * 2,
+        height: centerY * 2,
+        centerX: centerX,
+        centerY: centerY
+    };
+    this.players = (function (wordList) {
         var result = [],
             i = 0;
         for (i; i < playerCount; i += 1) {
-            var player = new Player(i);
+            var player = new Player(i, centerX, centerY);
+            player.setWord(wordList[i]);
             result.push(player);
         }
         return result;
-    }());
+    }(this.wordList));
 }
 Level.prototype = {constructor: Level};
 Level.prototype.update = function () {
@@ -17,12 +24,16 @@ Level.prototype.update = function () {
     //check input
     this.players.forEach(function (player) { player.update(); });
 };
-Level.prototype.draw = function (ctx, centerX, centerY) {
-    this.players.forEach(function (player) { player.draw(ctx, centerX, centerY); });
+Level.prototype.draw = function (ctx) {
+    this.players.forEach(function (player) { 
+        player.draw(ctx); 
+    });
 
-    ctx.fillRect(centerX - 5, 0, centerX + 5, centerY * 2);
-    ctx.fillStyle = '#000';
-    ctx.fill();
-    ctx.fillRect(0, centerY - 5, centerX * 2, centerY + 5);
-    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(this.rect.centerX, 0);
+    ctx.lineTo(this.rect.centerX, this.rect.centerY * 2);
+    ctx.moveTo(0, this.rect.centerY);
+    ctx.lineTo(this.rect.centerX * 2, this.rect.centerY);
+    ctx.lineWidth = 10;
+    ctx.stroke();
 };
