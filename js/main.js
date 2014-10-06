@@ -2,25 +2,27 @@ var Core = (function () {
     var instance;
 
     function initInstance() {
-        var objCore = {},
-            canvas = document.getElementById("game-stage"),
+        var canvas = document.getElementById("game-stage"),
             context = canvas.getContext('2d'),
             playerCount = /*window.prompt('player count',4) ||*/ 4,
             centerX = canvas.width / 2,
-            centerY = canvas.height / 2;
-        objCore.canvas = canvas;
-        objCore.context = context;
-        objCore.currentLevel = new Level(playerCount, centerX, centerY);
+            centerY = canvas.height / 2,
+            level = new Level(playerCount, centerX, centerY);
 
-        objCore.context.textAlign = 'center';
-        objCore.context.textBaseline = 'middle';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
         var render = function () {
-            objCore.currentLevel.update();
-            objCore.currentLevel.draw(objCore.context);
+            level.update();
+            level.draw(context);
             window.requestAnimationFrame(function () {render(); });
         };
         render.call();
-        return objCore;
+        
+        return {
+            canvas: canvas,
+            context: context,
+            currentLevel: level
+        };
     }
 
     return {

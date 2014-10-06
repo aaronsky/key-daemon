@@ -16,7 +16,7 @@ Word.prototype.update = function (keys) {
         this.completed += this.remainingWord.charAt(0);
         this.remainingWord = this.remainingWord.substr(1);
     }
-    if (this.remainingWord.length === 0)
+    if (this.remainingWord.length === 0 && this.completed === this.word)
     {
         console.log('word done');
         this.solved = true;
