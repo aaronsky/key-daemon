@@ -5,9 +5,21 @@ function Player(num, centerX, centerY) {
     this.id = num;
     this.currentWord;
     this.color = (function (id) {
-        var color = '#'.concat(id == 0 || id == 1 ? 'f' : '0',
-                               id == 1 || id == 2 ? 'f' : '0',
-                               id == 3 ? 'f' : '0');
+        var color;
+		switch(id){
+			case 0:
+				color = "#FDE8E8";
+				break;
+			case 1:
+				color = "#E7E9F5";
+				break;
+			case 2:
+				color = "#FEF8DA";
+				break;
+			case 3:
+				color = "#E3EFD0";
+				break;
+		}
         return color;
     }(this.id));
     this.rect = {
@@ -45,27 +57,28 @@ Player.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
     this.currentWord.draw(ctx);
-    ctx.fillStyle = '#000';
-    ctx.font = 'normal 14pt Calibri';
+    ctx.fillStyle = '#676767';
+    ctx.font = 'normal 16pt Calibri';
+	ctx.textAlign = "right";
     //super hardcoded, switch to modulo at some point
     var scoreRect = (function (id, centerX, centerY) {
         var rect = {};
         switch (id) {
             case 0:
-                rect.x = centerX - 50;
+                rect.x = centerX - 25;
                 rect.y = centerY - 25;
                 break;
             case 1:
-                rect.x = centerX + 50;
+                rect.x = centerX * 2 - 25;
                 rect.y = centerY - 25;
                 break;
             case 2:
-                rect.x = centerX - 50;
-                rect.y = centerY + 25;
+                rect.x = centerX - 25;
+                rect.y = centerY * 2 - 25;
                 break;
             case 3:
-                rect.x = centerX + 50;
-                rect.y = centerY + 25;
+                rect.x = centerX * 2 - 25;
+                rect.y = centerY * 2 - 25;
                 break;
             default:
                 rect.x = rect.y = 0;
@@ -73,7 +86,7 @@ Player.prototype.draw = function (ctx) {
         }
         return rect;
     }(this.id, this.rect.width, this.rect.height));
-    ctx.fillText("Score: " + this.score, 
+    ctx.fillText(this.score, 
                  scoreRect.x,
                  scoreRect.y);
 };

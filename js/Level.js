@@ -32,11 +32,11 @@ Level.prototype.draw = function (ctx) {
         player.draw(ctx); 
     });
 
-    ctx.beginPath();
-    ctx.moveTo(this.rect.centerX, 0);
-    ctx.lineTo(this.rect.centerX, this.rect.centerY * 2);
-    ctx.moveTo(0, this.rect.centerY);
-    ctx.lineTo(this.rect.centerX * 2, this.rect.centerY);
-    ctx.lineWidth = 10;
-    ctx.stroke();
+//    ctx.beginPath();
+//    ctx.moveTo(this.rect.centerX, 0);
+//    ctx.lineTo(this.rect.centerX, this.rect.centerY * 2);
+//    ctx.moveTo(0, this.rect.centerY);
+//    ctx.lineTo(this.rect.centerX * 2, this.rect.centerY);
+//    ctx.lineWidth = 10;
+//    ctx.stroke();
 };

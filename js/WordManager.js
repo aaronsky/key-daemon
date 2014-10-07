@@ -4,7 +4,7 @@ var WordManager = {
     generateWords: function () {
         var result = [],
             i,
-            count = 4;
+            count = 50;
         for (i = 0; i < count; i++) {
             result.push(WordManager.words[Math.floor(Math.random() * (50 - 0 + 1) + 0)]);
         }
