@@ -63,8 +63,18 @@ table{
     border-spacing:0;
 }
 
-
-
+@font-face{
+	font-family:'Raleway Regular';
+	src: url(../fonts/Raleway-Regular.ttf) format("truetype");
+}
+@font-face{
+	font-family:'Raleway Thin';
+	src: url(../fonts/Raleway-Thin.ttf) format("truetype");
+}
+@font-face{
+	font-family:'Raleway Light';
+	src: url(../fonts/Raleway-Light.ttf) format("truetype");
+}
 
 
 /*------------------------------------*\

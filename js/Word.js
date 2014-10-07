@@ -25,16 +25,22 @@ Word.prototype.update = function (keys) {
 };
 Word.prototype.draw = function (ctx) {
 	
-	ctx.font = 'normal 30pt Calibri';
-	var wordSize = ctx.measureText(this.word).width;
+	ctx.font = 'normal 35pt Raleway Thin';
 	var remWordSize = ctx.measureText(this.remainingWord).width;
+	ctx.font = 'normal 35pt Raleway Thin';
 	var comWordSize = ctx.measureText(this.completed).width;
+	ctx.font = 'normal 35pt Raleway Thin';
 	var letterSize = ctx.measureText(this.remainingWord.charAt(0)).width;
+	var wordSize = remWordSize + comWordSize;
+	
+	
 	
 	ctx.textAlign = "left";
 	ctx.fillStyle = '#A7A7A7';
+	ctx.font = 'normal 35pt Raleway Thin';
     ctx.fillText(this.completed, this.center.x - (wordSize/2), this.center.y);
     ctx.fillStyle = '#000';
+	ctx.font = 'normal 35pt Raleway Thin';
     ctx.fillText(this.remainingWord, this.center.x - (wordSize/2) + comWordSize, this.center.y);
 	
 	ctx.strokeStyle = '#A7A7A7';
