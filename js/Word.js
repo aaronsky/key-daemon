@@ -23,43 +23,46 @@ Word.prototype.update = function (keys) {
     }
         
 };
-Word.prototype.draw = function (ctx) {
+Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	
-	ctx.font = 'normal 35pt Raleway Thin';
+	var fontSize = "40";
+	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
 	var remWordSize = ctx.measureText(this.remainingWord).width;
-	ctx.font = 'normal 35pt Raleway Thin';
+	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
 	var comWordSize = ctx.measureText(this.completed).width;
-	ctx.font = 'normal 35pt Raleway Thin';
+	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
 	var letterSize = ctx.measureText(this.remainingWord.charAt(0)).width;
 	var wordSize = remWordSize + comWordSize;
-	
+	var LineY = 32;
 	
 	
 	ctx.textAlign = "left";
 	ctx.fillStyle = '#A7A7A7';
-	ctx.font = 'normal 35pt Raleway Thin';
+	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
     ctx.fillText(this.completed, this.center.x - (wordSize/2), this.center.y);
     ctx.fillStyle = '#000';
-	ctx.font = 'normal 35pt Raleway Thin';
+	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
     ctx.fillText(this.remainingWord, this.center.x - (wordSize/2) + comWordSize, this.center.y);
 	
-	ctx.strokeStyle = '#A7A7A7';
+	ctx.strokeStyle = completedColor;
     ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2), this.center.y + 20);
-    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + 20);
+    ctx.moveTo(this.center.x - (wordSize/2), this.center.y + LineY);
+    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + LineY);
     ctx.lineWidth = 2;
     ctx.stroke();
 	
-	ctx.strokeStyle = '#000';
+	ctx.strokeStyle = selectedColor;
+	
 	ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + 20);
-    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + 20);
+    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + LineY);
+    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + LineY);
     ctx.lineWidth = 4;
     ctx.stroke();
 	
+	ctx.strokeStyle = '#9A9A9A';
 	ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + 20);
-    ctx.lineTo(this.center.x + (wordSize/2), this.center.y + 20);
+    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + LineY);
+    ctx.lineTo(this.center.x + (wordSize/2), this.center.y + LineY);
     ctx.lineWidth = 2;
     ctx.stroke();
 	

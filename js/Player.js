@@ -4,24 +4,31 @@ function Player(num, centerX, centerY) {
     centerY = centerY || window.innerHeight * 0.5;
     this.id = num;
     this.currentWord;
-    this.color = (function (id) {
-        var color;
-		switch(id){
+    this.color ;
+	this.comColor;
+	this.selColor
+	switch(this.id){
 			case 0:
-				color = "#FDE8E8";
+				this.color = "#FDE8E8";
+				this.comColor = "#F59A9C";
+				this.selColor = "#F05657";
 				break;
 			case 1:
-				color = "#E7E9F5";
+				this.color = "#E7E9F5";
+				this.comColor = "#9E9BCC";
+				this.selColor = "#5960AB";
 				break;
 			case 2:
-				color = "#FEF8DA";
+				this.color = "#FEF8DA";
+				this.comColor = "#E29C35";
+				this.selColor = "#BB842B";
 				break;
 			case 3:
-				color = "#E3EFD0";
+				this.color = "#E3EFD0";				
+				this.comColor = "#9FCB9D";
+				this.selColor = "#3AAE49";
 				break;
 		}
-        return color;
-    }(this.id));
     this.rect = {
         x: (this.id % 2) * centerX,
         y: (function (id){
@@ -56,9 +63,9 @@ Player.prototype.update = function () {
 Player.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
-    this.currentWord.draw(ctx);
+    this.currentWord.draw(ctx, this.comColor, this.selColor);
     ctx.fillStyle = '#676767';
-    ctx.font = 'normal 16pt Calibri';
+    ctx.font = 'normal 16pt Raleway Light';
 	ctx.textAlign = "right";
     //super hardcoded, switch to modulo at some point
     var scoreRect = (function (id, centerX, centerY) {
@@ -89,4 +96,8 @@ Player.prototype.draw = function (ctx) {
     ctx.fillText(this.score, 
                  scoreRect.x,
                  scoreRect.y);
+	//////////// 
+	//ScoreBar//
+	////////////
+	
 };
