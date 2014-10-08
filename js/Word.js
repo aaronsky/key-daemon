@@ -25,7 +25,7 @@ Word.prototype.update = function (keys) {
 };
 Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	
-	var fontSize = "40";
+	var fontSize = '40';
 	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
 	var remWordSize = ctx.measureText(this.remainingWord).width;
 	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
@@ -33,7 +33,7 @@ Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
 	var letterSize = ctx.measureText(this.remainingWord.charAt(0)).width;
 	var wordSize = remWordSize + comWordSize;
-	var LineY = 32;
+	var lineY = 32;
 	
 	
 	ctx.textAlign = "left";
@@ -46,23 +46,22 @@ Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	
 	ctx.strokeStyle = completedColor;
     ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2), this.center.y + LineY);
-    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + LineY);
+    ctx.moveTo(this.center.x - (wordSize/2), this.center.y + lineY);
+    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + lineY);
     ctx.lineWidth = 2;
     ctx.stroke();
 	
 	ctx.strokeStyle = selectedColor;
-	
 	ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + LineY);
-    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + LineY);
+    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize, this.center.y + lineY);
+    ctx.lineTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + lineY);
     ctx.lineWidth = 4;
     ctx.stroke();
 	
 	ctx.strokeStyle = '#9A9A9A';
 	ctx.beginPath();
-    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + LineY);
-    ctx.lineTo(this.center.x + (wordSize/2), this.center.y + LineY);
+    ctx.moveTo(this.center.x - (wordSize/2) + comWordSize + letterSize, this.center.y + lineY);
+    ctx.lineTo(this.center.x + (wordSize/2), this.center.y + lineY);
     ctx.lineWidth = 2;
     ctx.stroke();
 	

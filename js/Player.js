@@ -3,32 +3,31 @@ function Player(num, centerX, centerY) {
     centerX = centerX || window.innerWidth * 0.5;
     centerY = centerY || window.innerHeight * 0.5;
     this.id = num;
-    this.currentWord;
-    this.color ;
-	this.comColor;
-	this.selColor
-	switch(this.id){
-			case 0:
-				this.color = "#FDE8E8";
-				this.comColor = "#F59A9C";
-				this.selColor = "#F05657";
-				break;
-			case 1:
-				this.color = "#E7E9F5";
-				this.comColor = "#9E9BCC";
-				this.selColor = "#5960AB";
-				break;
-			case 2:
-				this.color = "#FEF8DA";
-				this.comColor = "#E29C35";
-				this.selColor = "#BB842B";
-				break;
-			case 3:
-				this.color = "#E3EFD0";				
-				this.comColor = "#9FCB9D";
-				this.selColor = "#3AAE49";
-				break;
-		}
+    this.currentWord = undefined;
+    
+    switch(this.id){
+            case 0:
+                this.color = "#FDE8E8";
+                this.comColor = "#F59A9C";
+                this.selColor = "#F05657";
+                break;
+            case 1:
+                this.color = "#E7E9F5";
+                this.comColor = "#9E9BCC";
+                this.selColor = "#5960AB";
+                break;
+            case 2:
+                this.color = "#FEF8DA";
+                this.comColor = "#E29C35";
+                this.selColor = "#BB842B";
+                break;
+            case 3:
+                this.color = "#E3EFD0";				
+                this.comColor = "#9FCB9D";
+                this.selColor = "#3AAE49";
+                break;
+        }
+    
     this.rect = {
         x: (this.id % 2) * centerX,
         y: (function (id){
