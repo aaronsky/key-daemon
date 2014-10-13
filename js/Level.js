@@ -17,11 +17,16 @@ function Level(playerCount, centerX, centerY) {
         }
         return result;
     }(this.randomWordFromList.bind(this)));
+	
+	//If you want to get rid of the rules screen, change the last number of this delcaration to a 0
+	this.rules = new RulesMenu(this.rect.centerX,this.rect.centerY, 8);
 }
 Level.prototype = {constructor: Level};
 Level.prototype.update = function () {
     //update player score
     //check input
+	//this.spinny.update();
+	this.rules.update();
     this.players.forEach(function (player) { player.update(); });
 };
 Level.prototype.randomWordFromList = function () {
@@ -31,6 +36,8 @@ Level.prototype.draw = function (ctx) {
     this.players.forEach(function (player) { 
         player.draw(ctx); 
     });
+	this.rules.draw(ctx);
+	//this.spinny.draw(ctx);
 
 //    ctx.beginPath();
 //    ctx.moveTo(this.rect.centerX, 0);

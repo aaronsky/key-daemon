@@ -75,6 +75,19 @@ table{
 	font-family:'Raleway Light';
 	src: url(../fonts/Raleway-Light.ttf) format("truetype");
 }
+@font-face{
+	font-family:'Lato Regular';
+	src: url(../fonts/Lato-Regular.ttf) format("truetype");
+}
+@font-face{
+	font-family:'Lato Light';
+	src: url(../fonts/Lato-Light.ttf) format("truetype");
+}
+@font-face{
+	font-family:'Lato Thin';
+	src: url(../fonts/Lato-Hairline.ttf) format("truetype");
+}
+
 
 
 /*------------------------------------*\

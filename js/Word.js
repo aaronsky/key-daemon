@@ -37,6 +37,7 @@ Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	
 	
 	ctx.textAlign = "left";
+	ctx.textBaseline = 'middle';
 	ctx.fillStyle = '#A7A7A7';
 	ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
     ctx.fillText(this.completed, this.center.x - (wordSize/2), this.center.y);
