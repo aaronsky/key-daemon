@@ -32,6 +32,6 @@ RuleFadeIn.prototype.draw = function (ctx) {
 
 	ctx.globalAlpha = this.alpha / 255;
     ctx.fillStyle = this.font.color;
-	ctx.fillText(this.text, this.loc.X, this.loc.Y);
+	ctx.fillText(this.text, this.x, this.y);
 	ctx.globalAlpha = 1;
 };

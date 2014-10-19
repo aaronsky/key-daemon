@@ -62,10 +62,11 @@ RulesMenu.prototype.draw = function (ctx) {
             colorWidth = ctx.measureText("Pick A Color").width + 50;
         ctx.font = 'normal ' + textSize + 'pt Raleway Light';
 
-        this.text1.draw(ctx);
-        this.text2.draw(ctx);
-        this.text3.draw(ctx);
-        this.text4.draw(ctx);
+        var i = 0,
+            len = this.rulesTexts.length;
+        for (i; i < len; i += 1) {
+            this.rulesTexts[i].draw(ctx);
+        }
 
         this.spinner.draw(ctx);
     }
