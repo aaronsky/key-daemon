@@ -4,40 +4,41 @@ function Player(num, centerX, centerY) {
     centerY = centerY || window.innerHeight * 0.5;
     this.id = num;
     this.currentWord = undefined;
-    
-    switch(this.id){
-            case 0:
-                this.color = "#FDE8E8";
-                this.comColor = "#F59A9C";
-                this.selColor = "#F05657";
-                break;
-            case 1:
-                this.color = "#E7E9F5";
-                this.comColor = "#9E9BCC";
-                this.selColor = "#5960AB";
-                break;
-            case 2:
-                this.color = "#FEF8DA";
-                this.comColor = "#E29C35";
-                this.selColor = "#BB842B";
-                break;
-            case 3:
-                this.color = "#E3EFD0";				
-                this.comColor = "#9FCB9D";
-                this.selColor = "#3AAE49";
-                break;
-        }
-    
+
+    switch (this.id) {
+    case 0:
+        this.color = "#FDE8E8";
+        this.comColor = "#F59A9C";
+        this.selColor = "#F05657";
+        break;
+    case 1:
+        this.color = "#E7E9F5";
+        this.comColor = "#9E9BCC";
+        this.selColor = "#5960AB";
+        break;
+    case 2:
+        this.color = "#FEF8DA";
+        this.comColor = "#E29C35";
+        this.selColor = "#BB842B";
+        break;
+    case 3:
+        this.color = "#E3EFD0";
+        this.comColor = "#9FCB9D";
+        this.selColor = "#3AAE49";
+        break;
+    }
+
     this.rect = {
         x: (this.id % 2) * centerX,
-        y: (function (id){
-                if (id == 1)
-                    return 0;
-                else if (id == 2)
-                    return centerY;
-                else
-                    return (id % 2) * centerY;
-            }(this.id)),
+        y: (function (id) {
+            if (id === 1) {
+                return 0;
+            } else if (id === 2) {
+                return centerY;
+            } else {
+                return (id % 2) * centerY;
+            }
+        }(this.id)),
         width: centerX,
         height: centerY
     };
@@ -53,7 +54,7 @@ Player.prototype.setWord = function (newWord) {
 
 Player.prototype.update = function () {
     InputManager.keyHandle(this.currentWord);
-    if(this.currentWord.solved) {
+    if (this.currentWord.solved) {
         this.setWord(Core.getInstance().currentLevel.randomWordFromList());
         this.score += 100;
     }
@@ -65,38 +66,38 @@ Player.prototype.draw = function (ctx) {
     this.currentWord.draw(ctx, this.comColor, this.selColor);
     ctx.fillStyle = '#676767';
     ctx.font = 'normal 16pt Raleway Light';
-	ctx.textAlign = "right";
+    ctx.textAlign = "right";
     //super hardcoded, switch to modulo at some point
     var scoreRect = (function (id, centerX, centerY) {
         var rect = {};
         switch (id) {
-            case 0:
-                rect.x = centerX - 25;
-                rect.y = centerY - 25;
-                break;
-            case 1:
-                rect.x = centerX * 2 - 25;
-                rect.y = centerY - 25;
-                break;
-            case 2:
-                rect.x = centerX - 25;
-                rect.y = centerY * 2 - 25;
-                break;
-            case 3:
-                rect.x = centerX * 2 - 25;
-                rect.y = centerY * 2 - 25;
-                break;
-            default:
-                rect.x = rect.y = 0;
-                break;
+        case 0:
+            rect.x = centerX - 25;
+            rect.y = centerY - 25;
+            break;
+        case 1:
+            rect.x = centerX * 2 - 25;
+            rect.y = centerY - 25;
+            break;
+        case 2:
+            rect.x = centerX - 25;
+            rect.y = centerY * 2 - 25;
+            break;
+        case 3:
+            rect.x = centerX * 2 - 25;
+            rect.y = centerY * 2 - 25;
+            break;
+        default:
+            rect.x = rect.y = 0;
+            break;
         }
         return rect;
     }(this.id, this.rect.width, this.rect.height));
-    ctx.fillText(this.score, 
+    ctx.fillText(this.score,
                  scoreRect.x,
                  scoreRect.y);
-	//////////// 
-	//ScoreBar//
-	////////////
-	
+    //////////// 
+    //ScoreBar//
+    ////////////
+
 };
