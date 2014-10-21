@@ -3,9 +3,16 @@ var InputManager = {
     keys: [],
     keyVerify: function (e) {
         e = e || event; //IE Compatibility
-        var codeFromKey = this.keycodeToChar(e.keyCode);
-        this.keys[codeFromKey] = e.type === 'keydown'; //true if keydown event, 
+        if ( e.keyCode != 13 )
+        {
+            var codeFromKey = this.keycodeToChar(e.keyCode);
+            this.keys[codeFromKey] = e.type === 'keydown'; //true if keydown event, 
                                                      //false if anything else
+        }
+        else
+        {
+            this.keys[13] = e.type === 'keydown';   
+        }
     },
     keyHandle: function (word) {
         word.update(this.keys);

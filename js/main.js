@@ -10,7 +10,7 @@ var Core = (function () {
             playerCount = /*window.prompt('player count',4) ||*/ 4,
             centerX = canvas.width / 2,
             centerY = canvas.height / 2,
-            level = new Level(playerCount, centerX, centerY),
+            level = new StartScreen(centerX, centerY),   //level is our gameState. Instantiate it to a startScreen object here
             render = function () {
                 level.update();
                 level.draw(context);
