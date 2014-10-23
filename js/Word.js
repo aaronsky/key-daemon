@@ -66,3 +66,6 @@ Word.prototype.draw = function (ctx, completedColor, selectedColor) {
 	
 	ctx.textAlign = "center";
 };
+Word.prototype.shuffle = function () {
+    //call this when it's time to shuffle
+}

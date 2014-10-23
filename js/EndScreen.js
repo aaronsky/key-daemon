@@ -22,6 +22,9 @@ EndScreen.prototype.draw = function (ctx) {
                  this.rect.width,
                  this.rect.height);
     this.fillStyle = this.textColor;
+    var textSize = 10,
+        colorWidth = ctx.measureText("Insert Working Title Here").width + 50;
+    ctx.font = 'normal ' + textSize + 'pt Raleway Light';
     var i = 0,
         len = this.scores.length;
     for (i; i < len; i += 1) {

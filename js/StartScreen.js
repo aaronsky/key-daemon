@@ -59,5 +59,5 @@ StartScreen.prototype.draw = function (ctx) {
 
 StartScreen.prototype.end = function () {
     var instance = Core.getInstance();
-    instance.changeLevel(new RulesMenu(this.rect.centerX, this.rect.centerY, 8));
+    instance.setCurrentLevel(new RulesMenu(this.rect.centerX, this.rect.centerY, 8));
 }

@@ -10,15 +10,18 @@ var Core = (function () {
             playerCount = /*window.prompt('player count',4) ||*/ 4,
             centerX = canvas.width / 2,
             centerY = canvas.height / 2,
-            level = new StartScreen(centerX, centerY),   //level is our gameState. Instantiate it to a startScreen object here
+            level = new StartScreen(centerX, centerY),//level is our gameState. Instantiate it to a startScreen object here
             render = function () {
                 level.update();
                 level.draw(context);
                 window.requestAnimationFrame(function () {render(); });
             },
-            changeLevel = function (newLevel) {
+            getLevel = function(){
+                return level;
+            },
+            setLevel = function (newLevel) {
                 level = newLevel;
-            };
+            }
 
         context.textAlign = 'center';
         context.textBaseline = 'middle';
@@ -28,8 +31,9 @@ var Core = (function () {
             canvas: canvas,
             context: context,
 			//audioCtx: audioCtx,
-            currentLevel: level,
-            changeLevel: changeLevel
+            getCurrentLevel: getLevel,
+            setCurrentLevel: setLevel
+            
         };
     }
 

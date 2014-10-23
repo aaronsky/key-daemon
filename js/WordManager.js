@@ -4,9 +4,9 @@ var WordManager = {
     generateWords: function () {
         var result = [],
             i = 0,
-            count = 50;
+            count = words.length;
         for (i; i < count; i += 1) {
-            result.push(WordManager.words[Math.floor(Math.random() * (51))]);
+            result.push(WordManager.words[Math.floor(Math.random() * (count + 1))]);
         }
         return result;
     }

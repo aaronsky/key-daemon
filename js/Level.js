@@ -17,11 +17,11 @@ function Level(playerCount, centerX, centerY) {
         }
         return result;
     }(this.randomWordFromList.bind(this)));
-	
-	//If you want to get rid of the rules screen, change the last number of this delcaration to a 0
-	//this.rules = new RulesMenu(this.rect.centerX,this.rect.centerY, 8);
-    this.timeLeftSpinner = new LoadSpinner(this.rect.width / 10,
-                                           5,
+
+    //If you want to get rid of the rules screen, change the last number of this delcaration to a 0
+    //this.rules = new RulesMenu(this.rect.centerX,this.rect.centerY, 8);
+    this.timeLeftSpinner = new LoadSpinner(this.rect.width / 20,
+                                           30,
                                            "#DCDCDB",
                                            "#6D6D6D",
                                            this.rect.centerX,
@@ -36,13 +36,11 @@ Level.prototype.update = function () {
             scores.push(player.score);
         });
         var instance = Core.getInstance();
-        instance.changeLevel(new EndScreen(scores, this.rect.centerX, this.rect.centerY));
+        instance.setCurrentLevel(new EndScreen(scores, this.rect.centerX, this.rect.centerY));
     } else {
-    //update player score
-    //check input
-	//this.rules.update();
-    this.players.forEach(function (player) { player.update(); });
-    this.timeLeftSpinner.update();
+        //Pick Mode randomly??
+        this.players.forEach(function (player) { player.update(); });
+        this.timeLeftSpinner.update();
     }
 };
 Level.prototype.randomWordFromList = function () {
