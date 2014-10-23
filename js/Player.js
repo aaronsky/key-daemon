@@ -55,6 +55,9 @@ Player.prototype.setWord = function (newWord) {
 Player.prototype.update = function () {
     InputManager.keyHandle(this.currentWord);
     if (this.currentWord.solved) {
+        var instance = Core.getInstance();
+        var currentLevel = instance.currentLevel;
+        this.setWord(currentLevel.randomWordFromList());
         this.setWord(Core.getInstance().currentLevel.randomWordFromList());
         this.score += 100;
     }

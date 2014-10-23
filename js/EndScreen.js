@@ -6,7 +6,8 @@ function EndScreen(scores, centerX, centerY) {
         centerX: centerX,
         centerY: centerY
     };
-    this.backgroundColor = "#FFFFFF";
+    this.backgroundColor = "#545252";
+    this.textColor = "#CDCDCD";
 }
 
 EndScreen.prototype = {constructor: EndScreen};
@@ -20,6 +21,7 @@ EndScreen.prototype.draw = function (ctx) {
                  0,
                  this.rect.width,
                  this.rect.height);
+    this.fillStyle = this.textColor;
     var i = 0,
         len = this.scores.length;
     for (i; i < len; i += 1) {

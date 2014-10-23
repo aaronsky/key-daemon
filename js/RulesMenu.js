@@ -39,7 +39,8 @@ RulesMenu.prototype.animate = function () {
 
 RulesMenu.prototype.update = function () {
     if (this.spinner.isDone()) {
-        Core.getInstance().currentLevel = new Level(4, this.rect.centerX, this.rect.centerY);
+        var instance = Core.getInstance();
+        instance.changeLevel(new Level(4, this.rect.centerX, this.rect.centerY));
     } else {
         var i = 0,
             len = this.rulesTexts.length;

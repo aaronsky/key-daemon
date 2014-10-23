@@ -36,7 +36,7 @@ Level.prototype.update = function () {
             scores.push(player.score);
         });
         var instance = Core.getInstance();
-        instance.currentLevel = new EndScreen(scores, this.rect.centerX, this.rect.centerY);
+        instance.changeLevel(new EndScreen(scores, this.rect.centerX, this.rect.centerY));
     } else {
     //update player score
     //check input

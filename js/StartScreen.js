@@ -16,7 +16,8 @@ function StartScreen(centerX, centerY)  {
     this.textColor = "#CDCDCD";
     this.titleText = [
         new RuleFadeIn(50, 50, 3, "Insert Working Title Here"),
-        new RuleFadeIn(50, 150, 5, "A game by Aaron Sky, Richard Weiss, Doug Wattro and Stephen Garabedian")
+        new RuleFadeIn(50, 150, 5, "A game by Aaron Sky, Richard Weiss, Doug Wattro and Stephen Garabedian"),
+        new RuleFadeIn(50, 250, 3, "Press Enter to Start")
     ];
     
 }
@@ -24,6 +25,14 @@ function StartScreen(centerX, centerY)  {
 StartScreen.prototype = {constructor: StartScreen};
 
 StartScreen.prototype.update = function () {
+    var i = 0,
+        len = this.titleText.length;
+    for (i; i < len; i += 1) {
+        this.titleText[i].update(1);
+        if (!this.titleText[i].done) {
+            break;
+        }
+    }
     //Add a mouse event listener and a keyboard event listener
     //Both a click on the button, or an enter keypress should call the end function
     if ( InputManager.keys[ 13 ] ){ // OR when the player clicks on a "go" button
@@ -34,6 +43,7 @@ StartScreen.prototype.update = function () {
 StartScreen.prototype.draw = function (ctx) {
     ctx.fillStyle = this.backgroundColor;
     ctx.fillRect(0, 0, this.rect.centerX * 2, this.rect.centerY * 2);
+    ctx.fillStyle = this.textColor;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'hanging';
     var textSize = 30,
@@ -48,5 +58,6 @@ StartScreen.prototype.draw = function (ctx) {
 }
 
 StartScreen.prototype.end = function () {
-    Core.getInstance().currentLevel = new RulesMenu(core.centerX, core.centerY, 8);
+    var instance = Core.getInstance();
+    instance.changeLevel(new RulesMenu(this.rect.centerX, this.rect.centerY, 8));
 }

@@ -15,6 +15,9 @@ var Core = (function () {
                 level.update();
                 level.draw(context);
                 window.requestAnimationFrame(function () {render(); });
+            },
+            changeLevel = function (newLevel) {
+                level = newLevel;
             };
 
         context.textAlign = 'center';
@@ -25,7 +28,8 @@ var Core = (function () {
             canvas: canvas,
             context: context,
 			//audioCtx: audioCtx,
-            currentLevel: level
+            currentLevel: level,
+            changeLevel: changeLevel
         };
     }
 
