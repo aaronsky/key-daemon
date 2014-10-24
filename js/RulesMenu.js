@@ -29,14 +29,6 @@ function RulesMenu(centerX, centerY, time) {
 
 RulesMenu.prototype = {constructor: RulesMenu};
 
-RulesMenu.prototype.slideUp = function () {
-
-};
-
-RulesMenu.prototype.animate = function () {
-
-};
-
 RulesMenu.prototype.update = function () {
     if (this.spinner.isDone()) {
         var instance = Core.getInstance();

@@ -53,7 +53,7 @@ Player.prototype.setWord = function (newWord) {
 };
 
 Player.prototype.update = function () {
-    if (mode !== 'click') {
+    if (this.mode !== 'click') {
         InputManager.keyHandle(this.currentWord);
     }
     if (this.currentWord.solved) {
