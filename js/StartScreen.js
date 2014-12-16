@@ -1,80 +1,63 @@
-//Stephen's JS for the startScreen
-//When the core instantiates the level variable for the first time
-//  It will be set to a startScreen object
-//  StartScreen will then set the core's level to a RulesMenu object when the StartScreen is done
-//    -  Set the core's current level with core.getInstance().currentLevel;
+/*StartScreen*/
 
-"use strict";
+//Author: Stephen Garabedian
+//Date started: 12/10/14
 
-function StartScreen(centerX, centerY)  {
-    this.rect = {
-        centerX: centerX,
-        centerY: centerY
-    };
-    
-    this.randomFun = Math.floor((Math.random() * 100));
-    
-    this.backgroundColor = "#545252";
-    this.textColor = "#CDCDCD";    
+//Function: create a landing screen that the player will see when they start the game
+//		Will include the game's title and when the user clicks/presses enter/indicates that they would like to begin the game, switches the game's state to a RulesMenu object
+
+'use strict';
+
+function StartScreen(centerX, centerY/*,variablePlayerCount*/){
+	//this.variablePlayerCount = variablePlayerCount;
+	this.rect = {	//This refers to the gameState variable returned by app.game.getCurrentGameState
+		centerX: centerX,
+		centerY: centerY,
+	};
+	
+	this.backgroundColor = '#707070';
+	this.textColor = '#303030';
 }
 
-StartScreen.prototype = {constructor: StartScreen};
+StartScreen.prototype = {constructor: StartScreen};	//Sets the constructor for the StartScreen prototype to the above StartScreen(centerX, centerY) function
 
-StartScreen.prototype.update = function () {
-//    var i = 0,
-//        len = this.titleText.length;
-//    for (i; i < len; i += 1) {
-//        this.titleText[i].update(1);
-//        if (!this.titleText[i].done) {
-//            break;
-//        }
-//    }
-    //Add a mouse event listener and a keyboard event listener
-    //Both a click on the button, or an enter keypress should call the end function
-    if ( InputManager.keys[ 13 ] ){ // OR when the player clicks on a "go" button
-        this.end();   
+StartScreen.prototype.update = function(){
+	//Check the InputManager's keylogger to see if the enter key [13] has been pressed
+	if ( InputManager.keysPressed[13] ){ // if the Enter key is currently being pressed
+        this.end();
     }
 }
 
-StartScreen.prototype.draw = function (ctx) {
-    var height = this.rect.centerY * 2;
-    var heightSeg = height/4;
-    var width = this.rect.centerX * 2;
+StartScreen.prototype.draw = function(ctx){
+	var numPlayers = this.variablePlayerCount || 4;	//Assuming 4 players if there's no variablePlayerCount passed in
+	var height = this.rect.centerY * 2;
+	var heightFragment = height/numPlayers;
+	var width = this.rect.centerX * 2;
+	var colors=['#FD7373','#FDB273','#5CCB5C','#459898'];
+	
+	for(var i = 0; i < numPlayers; i++)
+	{
+		ctx.fillStyle = colors[i];
+		ctx.fillRect(0,i*heightFragment,width,heightFragment);
+	}
+	
+	ctx.textBaseline = 'middle';	//Text will write on the Y axis you define, larger font sizes will expand upwards and downwards
+	ctx.textAlign = 'start';		//Text will expand to the right of the X axis you define
+	
+	ctx.fillStyle = this.textColor;
+	ctx.font = 'normal 70pt Lato-Light';
+	
+	ctx.fillText("Key Daemon Rework", 25, heightFragment - heightFragment/2);		//Write it in the middle of the topmost block 25 pixels over
+	
+    ctx.font = 'normal 12pt Lato-Light';
+    ctx.fillText("A game by Stephen Garabedian",25, height - heightFragment/2);	//Write the credits in the middle of the last block 25 pixels over
     
-    ctx.fillStyle = "#FDE8E8";
-    ctx.fillRect(0,0,width,heightSeg);
-   
-    ctx.fillStyle = "#E7E9F5";
-    ctx.fillRect(0,heightSeg,width,heightSeg);
-    
-    ctx.fillStyle = "#FEF8DA";
-    ctx.fillRect(0,heightSeg * 2,width,heightSeg);
-    
-    ctx.fillStyle = "#E3EFD0";
-    ctx.fillRect(0,heightSeg * 3,width,heightSeg);
-    
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    
-    ctx.fillStyle = '#343434';
-    ctx.font = 'normal 72pt Raleway Thin';
-    if(this.randomFun == 1){
-        ctx.fillText("Type 4 Diabetes",20,heightSeg/2);
-    }else{
-        ctx.fillText("Key-Daemon",20,heightSeg/2);
-    }
-    ctx.font = 'normal 12pt Raleway Thin';
-    ctx.fillStyle = '#242424';
-    ctx.fillText("A game by Aaron Sky, Richard Weiss, Doug Watro, and Stephen Garabedian",20,height - 20);
-    
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#343434';
-    ctx.font = 'normal 72pt Raleway Thin';
-    ctx.fillText("Press Enter",width - 20,heightSeg*3 - heightSeg/2);
-    
+    ctx.textAlign = 'right';	//Now text expands from right to left
+    ctx.font = 'normal 72pt Lato-Light';
+    ctx.fillText("Press Enter",width - 25,(height - heightFragment) - heightFragment/2);	//Write the command to continue in the second-to-bottommost block
 }
 
-StartScreen.prototype.end = function () {
-    var instance = Core.getInstance();
-    instance.setCurrentLevel(new RulesMenu(this.rect.centerX, this.rect.centerY, 10));
+StartScreen.prototype.end = function(){
+	var gameObj = app.getGame();
+	gameObj.setCurrentGameState(new RulesMenu(this.rect.centerX, this.rect.centerY, 10));	//the last variable here (the int) tells the RulesMenu how long it should last for (10 seconds is good)
 }
