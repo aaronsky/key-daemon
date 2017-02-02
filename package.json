@@ -1,0 +1,22 @@
+{
+  "name": "key-daemon",
+  "version": "1.0.0",
+  "description": "Make typing ;)",
+  "main": "bundle.js",
+  "scripts": {
+    "build": "babel src -o dist/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronsky/key-daemon.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aaronsky/key-daemon/issues"
+  },
+  "homepage": "https://github.com/aaronsky/key-daemon#readme",
+  "devDependencies": {
+    "babel-cli": "^6.22.2"
+  }
+}
