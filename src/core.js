@@ -4,19 +4,19 @@ let instance;
 export default class Core {
     constructor() {
         this.canvas = document.getElementById('game-stage');
-        this.context = canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d');
         this.context.textAlign = 'center';
         this.context.textBaseline = 'middle';
         // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const playerCount = 4;
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
         this.level = new StartScreen(centerX, centerY);
     }
     static get() {
         if (!instance) {
             instance = new Core();
-            instance.render.call();
+            instance.render();
         }
         return instance;
     }

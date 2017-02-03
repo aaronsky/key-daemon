@@ -1,13 +1,13 @@
 import { InputManager } from '../managers';
 import { Word } from '../models';
-import { Core } from '../core';
+import Core from '../core';
 
 export default class Player {
     constructor(playerNumber, centerX, centerY) {
         centerX = centerX || window.innerWidth * 0.5;
         centerY = centerY || window.innerHeight * 0.5;
 
-        this.id = num;
+        this.id = playerNumber;
         this.currentWord = null;
         this.mode = 'normal';
 
@@ -51,7 +51,7 @@ export default class Player {
     }
     update() {
         if (this.mode !== 'click') {
-            InputManager.keyHandle(this.currentWord);
+            InputManager.get().keyHandle(this.currentWord);
         }
         if (this.currentWord.solved) {
             const instance = Core.get();

@@ -17,7 +17,7 @@ export default class StartScreen {
         instance.level = new RulesScreen(this.rect.centerX, this.rect.centerY, 10);
     }
     update() {
-        if (InputManager.keys[13]) {
+        if (InputManager.get().keys[13]) {
             this.end();
         }
     }

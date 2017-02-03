@@ -22,7 +22,7 @@ export default class LoadSpinner {
             centerX: options.centerX,
             centerY: options.centerY
         };
-        this.strokeColor = [baseColor, strokeColor];
+        this.strokeColor = [options.baseColor, options.strokeColor];
         this.onCompletion = onCompletion || function () { };
     }
     isOn(isItOn) {

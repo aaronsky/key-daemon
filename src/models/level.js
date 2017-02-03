@@ -6,7 +6,7 @@ import { WordManager } from '../managers';
 
 export default class Level {
     constructor(playerCount, centerX, centerY) {
-        this.wordList = WordManager.generateWords();
+        this.wordList = WordManager.get().generateWords();
         this.rect = {
             width: centerX * 2,
             height: centerY * 2,
