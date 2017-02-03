@@ -1,13 +1,13 @@
 export default class Word {
-    constructor(word, x, y) {
+    constructor(word, x = 400, y = 300) {
         this.word = word || '';
         this.remainingWord = this.word;
         this.completed = '';
-        this.center = {
-            x: x || 400, //debug values
-            y: y || 300
-        };
+        this.center = { x, y };
         this.solved = false;
+    }
+    isCompleted() {
+        return this.remainingWord.length === 0 && this.completed === this.word;
     }
     update(keys) {
         const nextLetter = this.remainingWord.charAt(0).toUpperCase();
@@ -15,29 +15,30 @@ export default class Word {
             this.completed += this.remainingWord.charAt(0);
             this.remainingWord = this.remainingWord.substr(1);
         }
-        if (this.remainingWord.length === 0 && this.completed === this.word) {
+        if (this.isCompleted()) {
             console.log('word done');
             this.solved = true;
         }
     }
     draw(ctx, completedColor, selectedColor) {
-        const fontSize = '40';
-        ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
+        const fontSize = 40;
+        const font = `normal ${fontSize}pt Raleway Thin`;
+        ctx.font = font;
         const remWordSize = ctx.measureText(this.remainingWord).width;
-        ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
+        ctx.font = font;
         const comWordSize = ctx.measureText(this.completed).width;
-        ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
+        ctx.font = font;
         const letterSize = ctx.measureText(this.remainingWord.charAt(0)).width;
         const wordSize = remWordSize + comWordSize;
         const lineY = 32;
         
-        ctx.textAlign = "left";
+        ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = '#A7A7A7';
-        ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
+        ctx.font = font;
         ctx.fillText(this.completed, this.center.x - (wordSize / 2), this.center.y);
         ctx.fillStyle = '#000';
-        ctx.font = 'normal ' + fontSize + 'pt Raleway Thin';
+        ctx.font = font;
         ctx.fillText(this.remainingWord, this.center.x - (wordSize / 2) + comWordSize, this.center.y);
         
         ctx.strokeStyle = completedColor;

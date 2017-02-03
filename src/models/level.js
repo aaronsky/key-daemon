@@ -34,9 +34,8 @@ export default class Level {
     }
     update() {
         if (this.timeLeftSpinner.isDone()) {
-            const scores = this.players.map(player => player.score);
             const instance = Core.get();
-            instance.level = new EndScreen(scores, this.rect.centerX, this.rect.centerY);
+            instance.level = new EndScreen(this.players, this.rect.centerX, this.rect.centerY);
         } else {
             this.players.forEach(player => player.update());
             this.timeLeftSpinner.update();

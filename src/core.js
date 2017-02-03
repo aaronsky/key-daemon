@@ -7,8 +7,6 @@ export default class Core {
         this.context = this.canvas.getContext('2d');
         this.context.textAlign = 'center';
         this.context.textBaseline = 'middle';
-        // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const playerCount = 4;
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         this.level = new StartScreen(centerX, centerY);

@@ -68,8 +68,8 @@ export default class RulesScreen {
         ctx.textAlign = 'left';
         ctx.textBaseline = 'hanging';
         const textSize = 30;
-        const colorWidth = ctx.measureText("Pick A Color").width + 50;
-        ctx.font = 'normal ' + textSize + 'pt Raleway Light';
+        const colorWidth = ctx.measureText('Pick A Color').width + 50;
+        ctx.font = `normal ${textSize}pt Raleway Light`;
 
         this.rulesTexts.forEach((rulesText) => {
             rulesText.draw(ctx);

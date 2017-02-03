@@ -1,26 +1,15 @@
 export default class RuleFadeIn {
-	/**
-	 * options = {
-	 * 	x: Number, 
-	 * 	y: Number, 
-	 * 	fadeSpeed: Number, 
-	 * 	text: String, 
-	 * 	textSize: Number, 
-	 * 	textColor: String
-	 * }
-	 */
-	constructor(options) {
-		options = options || {};
-		this.x = options.x || 0;
-		this.y = options.y || 0;
-		this.text = options.text || '';
+	constructor({ x = 0, y = 0, text = '', textSize = 25, textColor = '#CDCDCD', fadeSpeed = 1 }) {
+		this.x = x;
+		this.y = y;
+		this.text = text;
 		this.font = {
-			size: options.textSize || 25,
-			color: options.textColor || '#CDCDCD'
+			size: textSize,
+			color: textColor
 		};
 		this.alpha = 0;
 		this.done = false;
-		this.speed = options.fadeSpeed || 1;
+		this.speed = fadeSpeed;
 	}
 	update(dt) {
 		if (!this.done) {

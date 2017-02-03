@@ -1,37 +1,24 @@
 export default class LoadSpinner {
-    /**
-     * options = {
-     *  radius: Number,
-     *  time: Number,
-     *  baseColor: String,
-     *  strokeColor: String,
-     *  centerX: Number,
-     *  centerY: Number
-     * }
-     */
-    constructor(options, onCompletion) {
-        options = options || {};
+    constructor({ radius, time, baseColor, strokeColor, centerX, centerY }, onCompletion) {
         this.thisTime = Date.now();
         this.startTime = this.thisTime;
-        this.time = options.time;
+        this.time = time;
         this.elapsedTime = this.time;
         this.on = false;
         this.done = false;
         this.circle = {
-            radius: options.radius,
-            centerX: options.centerX,
-            centerY: options.centerY
+            radius,
+            centerX,
+            centerY
         };
-        this.strokeColor = [options.baseColor, options.strokeColor];
+        this.strokeColor = [baseColor, strokeColor];
         this.onCompletion = onCompletion || function () { };
     }
     isOn(isItOn) {
+        this.on = !!isItOn;
         if (isItOn) {
-            this.on = true;
             this.thisTime = Date.now();
             this.startTime = this.thisTime;
-        } else {
-            this.on = false;
         }
     }
     isDone() {
@@ -53,23 +40,24 @@ export default class LoadSpinner {
         }
     }
     draw(ctx) {
-        //Debug Stuff
-        //Draws a bigass rect so I can see the spinner ageinst a solid background.
-        //ctx.fillStyle = "#545252";
-        //ctx.fillRect(0,0,2000,2000);
-        //End Debug Stuff
+        /**
+         * Debug Stuff
+         * Draws a bigass rect so I can see the spinner ageinst a solid background.
+         * ctx.fillStyle = '#545252';
+         * ctx.fillRect(0, 0, 2000, 2000);
+         */
 
-        //Decimal is used to computer the arc of the loading circle
+        // Decimal is used to computer the arc of the loading circle
         const arcDecimal = Math.ceil(this.elapsedTime) - this.elapsedTime;
         const strokeSize = this.circle.radius / 20;
 
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.font = 'normal ' + this.circle.radius + 'pt Lato Light';
+        ctx.font = `normal ${this.circle.radius}pt Lato Light`;
 
-        //Main circle
+        // Main circle
         ctx.beginPath();
-        ctx.fillStyle = "#6D6D6D";
+        ctx.fillStyle = '#6D6D6D';
         ctx.arc(this.circle.centerX,
             this.circle.centerY,
             this.circle.radius,
@@ -77,7 +65,7 @@ export default class LoadSpinner {
             2 * Math.PI, false);
         ctx.fill();
 
-        //Arc with the Color of the previous loading bar
+        // Arc with the Color of the previous loading bar
         ctx.lineWidth = strokeSize;
         ctx.beginPath();
         ctx.strokeStyle = this.strokeColor[(Math.ceil(this.elapsedTime) + 1) % 2];
@@ -89,8 +77,8 @@ export default class LoadSpinner {
             true);
         ctx.stroke();
 
-        //Arc with the color of the "next" loading bar. I don't know a better way to make this make sense. 
-        //Honestly, though, nobody really needs to touch this stuff so don't worry about understanding whats going on here.
+        // Arc with the color of the "next" loading bar. I don't know a better way to make this make sense. 
+        // Honestly, though, nobody really needs to touch this stuff so don't worry about understanding whats going on here.
         ctx.lineWidth = strokeSize;
         ctx.beginPath();
         ctx.strokeStyle = this.strokeColor[Math.ceil(this.elapsedTime) % 2];
