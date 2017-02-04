@@ -1,53 +1,41 @@
+import Core from '../core';
 import { InputManager } from '../managers';
 import { Word } from '../models';
-import Core from '../core';
+import { Alignment, Rectangle, setContextProperties } from '../utilities/canvas';
+import { COLORS } from '../utilities/constants';
 
 export default class Player {
-    constructor(playerNumber, centerX, centerY) {
-        centerX = centerX || window.innerWidth * 0.5;
-        centerY = centerY || window.innerHeight * 0.5;
-
+    constructor(playerNumber, rect) {
         this.id = playerNumber;
+        const x = (this.id % 2) * rect.centerX;
+        this.rect = new Rectangle(x, 0, rect.centerX, rect.centerY);
+        if (this.id === 0 || this.id === 3) {
+            this.rect.y = (this.id % 2) * rect.centerY;
+        } else if (this.id === 2) {
+            this.rect.y = rect.centerY;
+        }
+        this.rect.centerX += this.rect.x;
+        this.rect.centerY += this.rect.y;
         this.currentWord = null;
         this.mode = 'normal';
-
-        let y;
-        if (this.id === 0) {
-            this.color = "#FDE8E8";
-            this.comColor = "#F59A9C";
-            this.selColor = "#F05657";
-            y = (this.id % 2) * centerY;
-        } else if (this.id === 1) {
-            this.color = "#E7E9F5";
-            this.comColor = "#9E9BCC";
-            this.selColor = "#5960AB";
-            y = 0;
-        } else if (this.id === 2) {
-            this.color = "#FEF8DA";
-            this.comColor = "#E29C35";
-            this.selColor = "#BB842B";
-            y = centerY;
-        } else if (this.id === 3) {
-            this.color = "#E3EFD0";
-            this.comColor = "#9FCB9D";
-            this.selColor = "#3AAE49";
-            y = (this.id % 2) * centerY;
-        }
-
-        const x = (this.id % 2) * centerX;
-        this.rect = {
-            x,
-            y,
-            width: centerX,
-            height: centerY,
-            centerX: x + (centerX * 0.5),
-            centerY: y + (centerY * 0.5)
-        };
         this.score = 0;
-        //this.color = id << '#000';
+
+    }
+    getColor(index, tint) {
+        const tints = ['lightest', 'light', 'regular'];
+        if ((index > 3 || index < 0)) {
+            return '';
+        }
+        const colors = ['reds', 'blues', 'yellows', 'greens'];
+        const category = COLORS[colors[index]];
+        const categoryKeys = Object.keys(category);
+        if (!categoryKeys.includes(tint)) {
+            return '';
+        }
+        return category[tint];
     }
     setWord(newWord) {
-        this.currentWord = new Word(newWord, this.rect.centerX, this.rect.centerY);
+        this.currentWord = new Word(newWord, this.rect);
     }
     update() {
         if (this.mode !== 'click') {
@@ -61,43 +49,19 @@ export default class Player {
         }
     }
     draw(ctx) {
-        ctx.fillStyle = this.color;
+        ctx = setContextProperties(ctx, {
+            fillStyle: this.getColor(this.id, 'lightest')
+        });
         ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
-        this.currentWord.draw(ctx, this.comColor, this.selColor);
-        ctx.fillStyle = '#676767';
-        ctx.font = 'normal 16pt Raleway Light';
-        ctx.textAlign = "right";
-        //super hardcoded, switch to modulo at some point
-        let scoreRect;
-        if (this.id === 0) {
-            scoreRect = {
-                x: this.rect.width - 25,
-                y: this.rect.height - 25
-            };
-        } else if (this.id === 1) {
-            scoreRect = {
-                x: this.rect.width * 2 - 25,
-                y: this.rect.height - 25
-            };
-        } else if (this.id === 2) {
-            scoreRect = {
-                x: this.rect.width - 25,
-                y: this.rect.height * 2 - 25
-            };
-        } else if (this.id === 3) {
-            scoreRect = {
-                x: this.rect.width * 2 - 25,
-                y: this.rect.height * 2 - 25
-            };
-        } else {
-            scoreRect = {
-                x: 0,
-                y: 0
-            };
-        }
+        this.currentWord.draw(ctx, this.getColor(this.id, 'light'), this.getColor(this.id, 'regular'));
+        ctx = setContextProperties(ctx, {
+            fillStyle: COLORS.grays['67'],
+            font: 'normal 16pt Raleway Light',
+            textAlign: Alignment.right
+        });
+        const x = this.rect.width * ((this.id % 2) + 1) - 25;
+        const y = this.rect.height * ((this.id > 1) + 1) - 25;
+        const scoreRect = { x, y };
         ctx.fillText(this.score, scoreRect.x, scoreRect.y);
-        //////////// 
-        //ScoreBar//
-        ////////////
     }
 }

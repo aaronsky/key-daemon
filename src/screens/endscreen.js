@@ -1,42 +1,34 @@
-export default class EndScreen {
-    constructor(players, centerX, centerY) {
-        this.rect = {
-            centerX,
-            centerY,
-            width: centerX * 2,
-            height: centerY * 2
-        };
+import { Alignment, Baseline, setContextProperties } from '../utilities/canvas';
+import { COLORS } from '../utilities/constants';
 
+export default class EndScreen {
+    constructor(rect, players) {
+        this.rect = rect;
         this.scoreTotal = 0;
         this.scoreBoxSize = [];
         this.players = players.concat().sort((a, b) => {
             if (b.score < a.score) {
                 return -1;
-            }
-            if (b.score > a.score) {
+            } else if (b.score > a.score) {
                 return 1;
             }
             return 0;
         });
-        this.players.forEach((player) => {
-            console.log(i + ":Player " + (player.id + 1) + "  Score: " + player.score);
+        this.players.map((player, index) => {
+            console.log(index, ':Player', player.id + 1, 'Score:', player.score);
             this.scoreTotal += player.score;
-        }).forEach((player) => {
-            this.scoreBoxSize[i] = (player.score / this.scoreTotal) * this.rect.height;
-            console.log(Math.ceil(this.scoreBoxSize[i]));
+            return player;
+        }).forEach((player, index) => {
+            this.scoreBoxSize[index] = (player.score / this.scoreTotal) * this.rect.height;
+            console.log(Math.ceil(this.scoreBoxSize[index]));
         });
     }
     getColor(index) {
-        if (index === 0) {
-            return '#FDE8E8';
-        } else if (index === 1) {
-            return '#E7E9F5';
-        } else if (index === 2) {
-            return '#FEF8DA';
-        } else if (index === 3) {
-            return '#E3EFD0';
+        if (index > 3 || index < 0) {
+            return null;
         }
-        return null;
+        const colors = ['reds', 'blues', 'yellows', 'greens'];
+        return COLORS[colors[index]].lightest;
     }
     update() {
 
@@ -45,34 +37,38 @@ export default class EndScreen {
         ctx.fillStyle = this.getColor(this.players[0].id);
         ctx.fillRect(0, 0, this.rect.width, this.rect.height);
 
-        ctx.textBaseline = 'middle';
+        ctx.textBaseline = Baseline.middle.name;
 
         let boxStart = 0;
-
         this.players.forEach((player, index, players) => {
-            if (this.scoreBoxSize[index] !== 0) {
+            const scoreSize = this.scoreBoxSize[index];
+            if (scoreSize !== 0) {
+                const height = Math.ceil(scoreSize);
                 const scoreRect = {
                     x: 0,
                     y: boxStart,
                     width: this.rect.width,
-                    height: Math.ceil(this.scoreBoxSize[index])
+                    height: height
                 };
-                ctx.fillStyle = this.getColor(player.id);
-                ctx.fillRect(0, boxStart, this.rect.width, Math.ceil(this.scoreBoxSize[index]));
 
-                ctx.font = `normal ${Math.ceil(this.scoreBoxSize[index] / 2)}pt Raleway Thin`;
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#545454';
+                ctx.fillStyle = this.getColor(player.id);
+                ctx.fillRect(0, boxStart, this.rect.width, height);
+
+                const halfHeight = Math.ceil(scoreSize / 2);
+                ctx = setContextProperties(ctx, {
+                    textAlign: Alignment.center,
+                    fillStyle: COLORS.grays['54'],
+                    font: `normal ${halfHeight}pt Raleway Thin`
+                });
                 ctx.fillText(player.score, this.rect.centerX, boxStart + Math.ceil(scoreRect.height / 2));
 
-                ctx.textAlign = 'left';
-                ctx.font = 'normal 20pt Raleway Thin';
-
-                if (index === 0) {
-                    ctx.fillText('Winner', 10, boxStart + 20);
-                } else {
-                    ctx.fillText('Loser', 10, boxStart + scoreRect.height - 20);
-                }
+                ctx = setContextProperties(ctx, {
+                    textAlign: Alignment.left,
+                    font: 'normal 20pt Raleway Thin'
+                });
+                const text = index === 0 ? 'Winner' : 'Loser';
+                const modifier = index === 0 ? 20 : scoreRect.height - 20;
+                ctx.fillText(text, 10, boxStart + modifier);
                 boxStart += scoreRect.height;
             }
         });

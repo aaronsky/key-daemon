@@ -1,5 +1,8 @@
+import { Alignment, Baseline, setContextProperties } from '../utilities/canvas';
+import { COLORS } from '../utilities/constants';
+
 export default class RuleFadeIn {
-	constructor({ x = 0, y = 0, text = '', textSize = 25, textColor = '#CDCDCD', fadeSpeed = 1 }) {
+	constructor({ x = 0, y = 0, text = '', textSize = 25, textColor = COLORS.grays['CD'], fadeSpeed = 1 }) {
 		this.x = x;
 		this.y = y;
 		this.text = text;
@@ -20,13 +23,13 @@ export default class RuleFadeIn {
 		}
 	}
 	draw(ctx) {
-		ctx.textAlign = 'left';
-		ctx.textBaseline = 'hanging';
-		ctx.font = 'normal ' + this.font.size + 'pt Raleway Light';
-		const colorWidth = ctx.measureText('Pick A Color').width + 50;
-
-		ctx.globalAlpha = this.alpha / 255;
-		ctx.fillStyle = this.font.color;
+		ctx = setContextProperties(ctx, {
+			textAlign: Alignment.left,
+			textBaseline: Baseline.hanging,
+			fillStyle: this.font.color,
+			font: `normal ${this.font.size}pt Raleway Light`,
+			globalAlpha: this.alpha / 255
+		});
 		ctx.fillText(this.text, this.x, this.y);
 		ctx.globalAlpha = 1;
 	}

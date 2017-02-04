@@ -1,9 +1,12 @@
+import { Alignment, Baseline, setContextProperties } from '../utilities/canvas';
+import { COLORS } from '../utilities/constants';
+
 export default class Word {
-    constructor(word, x = 400, y = 300) {
+    constructor(word, rect) {
         this.word = word || '';
+        this.rect = rect;
         this.remainingWord = this.word;
         this.completed = '';
-        this.center = { x, y };
         this.solved = false;
     }
     isCompleted() {
@@ -21,48 +24,55 @@ export default class Word {
         }
     }
     draw(ctx, completedColor, selectedColor) {
-        const fontSize = 40;
-        const font = `normal ${fontSize}pt Raleway Thin`;
+        const font = `normal 40pt Raleway Thin`;
         ctx.font = font;
         const remWordSize = ctx.measureText(this.remainingWord).width;
-        ctx.font = font;
         const comWordSize = ctx.measureText(this.completed).width;
-        ctx.font = font;
         const letterSize = ctx.measureText(this.remainingWord.charAt(0)).width;
         const wordSize = remWordSize + comWordSize;
+        
+        ctx = setContextProperties(ctx, {
+            textAlign: Alignment.left,
+            textBaseline: Baseline.middle,
+            fillStyle: COLORS.grays['A7'],
+            font
+        });
+        ctx.fillText(this.completed, this.rect.centerX - (wordSize / 2), this.rect.centerY);
+        ctx = setContextProperties(ctx, {
+            fillStyle: COLORS.black,
+            font
+        });
+        ctx.fillText(this.remainingWord, this.rect.centerX - (wordSize / 2) + comWordSize, this.rect.centerY);
+        
+        ctx = setContextProperties(ctx, {
+            strokeStyle: completedColor,
+            lineWidth: 2
+        });
         const lineY = 32;
-        
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#A7A7A7';
-        ctx.font = font;
-        ctx.fillText(this.completed, this.center.x - (wordSize / 2), this.center.y);
-        ctx.fillStyle = '#000';
-        ctx.font = font;
-        ctx.fillText(this.remainingWord, this.center.x - (wordSize / 2) + comWordSize, this.center.y);
-        
-        ctx.strokeStyle = completedColor;
         ctx.beginPath();
-        ctx.moveTo(this.center.x - (wordSize / 2), this.center.y + lineY);
-        ctx.lineTo(this.center.x - (wordSize / 2) + comWordSize, this.center.y + lineY);
-        ctx.lineWidth = 2;
+        ctx.moveTo(this.rect.centerX - (wordSize / 2), this.rect.centerY + lineY);
+        ctx.lineTo(this.rect.centerX - (wordSize / 2) + comWordSize, this.rect.centerY + lineY);
         ctx.stroke();
         
-        ctx.strokeStyle = selectedColor;
+        ctx = setContextProperties(ctx, {
+            strokeStyle: selectedColor,
+            lineWidth: 4
+        });
         ctx.beginPath();
-        ctx.moveTo(this.center.x - (wordSize / 2) + comWordSize, this.center.y + lineY);
-        ctx.lineTo(this.center.x - (wordSize / 2) + comWordSize + letterSize, this.center.y + lineY);
-        ctx.lineWidth = 4;
+        ctx.moveTo(this.rect.centerX - (wordSize / 2) + comWordSize, this.rect.centerY + lineY);
+        ctx.lineTo(this.rect.centerX - (wordSize / 2) + comWordSize + letterSize, this.rect.centerY + lineY);
         ctx.stroke();
         
-        ctx.strokeStyle = '#9A9A9A';
+        ctx = setContextProperties(ctx, {
+            strokeStyle: COLORS.grays['9A'],
+            lineWidth: 2
+        });
         ctx.beginPath();
-        ctx.moveTo(this.center.x - (wordSize / 2) + comWordSize + letterSize, this.center.y + lineY);
-        ctx.lineTo(this.center.x + (wordSize / 2), this.center.y + lineY);
-        ctx.lineWidth = 2;
+        ctx.moveTo(this.rect.centerX - (wordSize / 2) + comWordSize + letterSize, this.rect.centerY + lineY);
+        ctx.lineTo(this.rect.centerX + (wordSize / 2), this.rect.centerY + lineY);
         ctx.stroke();
         
-        ctx.textAlign = "center";
+        ctx.textAlign = Alignment.center.name;
     }
     shuffle() {
         // call this when it's time to shuffle

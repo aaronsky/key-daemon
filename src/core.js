@@ -1,15 +1,19 @@
 import { StartScreen } from './screens';
+import { Alignment, Baseline, Rectangle, setContextProperties } from './utilities/canvas';
 
 let instance;
 export default class Core {
     constructor() {
-        this.canvas = document.getElementById('game-stage');
-        this.context = this.canvas.getContext('2d');
-        this.context.textAlign = 'center';
-        this.context.textBaseline = 'middle';
-        const centerX = this.canvas.width / 2;
-        const centerY = this.canvas.height / 2;
-        this.level = new StartScreen(centerX, centerY);
+        const canvas = document.getElementById('game-stage');
+        let context = canvas.getContext('2d');
+        context = setContextProperties(context, { 
+            textAlign: Alignment.center, 
+            textBaseline: Baseline.middle 
+        });
+        this.context = context;
+        this.canvas = context.canvas;
+        const canvasRect = new Rectangle(0, 0, this.canvas.width, this.canvas.height);
+        this.level = new StartScreen(canvasRect);
     }
     static get() {
         if (!instance) {

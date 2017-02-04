@@ -1,10 +1,14 @@
+
+import { Alignment, Baseline, setContextProperties } from '../utilities/canvas';
+import { COLORS } from '../utilities/constants';
+
 export default class LoadSpinner {
     constructor({ radius, time, baseColor, strokeColor, centerX, centerY }, onCompletion) {
         this.thisTime = Date.now();
         this.startTime = this.thisTime;
         this.time = time;
         this.elapsedTime = this.time;
-        this.on = false;
+        this.enabled = false;
         this.done = false;
         this.circle = {
             radius,
@@ -14,9 +18,12 @@ export default class LoadSpinner {
         this.strokeColor = [baseColor, strokeColor];
         this.onCompletion = onCompletion || function () { };
     }
-    isOn(isItOn) {
-        this.on = !!isItOn;
-        if (isItOn) {
+    start() {
+        this.setEnabled(true);
+    }
+    setEnabled(enabled) {
+        this.enabled = !!enabled;
+        if (this.enabled) {
             this.thisTime = Date.now();
             this.startTime = this.thisTime;
         }
@@ -25,14 +32,12 @@ export default class LoadSpinner {
         return this.done;
     }
     update() {
-        if (this.on) {
+        if (this.enabled) {
             this.lastTime = this.thisTime;
             this.thisTime = Date.now();
-            this.elapsedTime = this.time - ((this.thisTime - this.startTime) / 1000);
-        } else {
-            this.elapsedTime = this.time;
         }
 
+        this.elapsedTime = this.time - (this.enabled && ((this.thisTime - this.startTime) / 1000));
         if (Math.ceil(this.elapsedTime) <= 0) {
             this.elapsedTime = 0;
             this.done = true;
@@ -40,54 +45,34 @@ export default class LoadSpinner {
         }
     }
     draw(ctx) {
-        /**
-         * Debug Stuff
-         * Draws a bigass rect so I can see the spinner ageinst a solid background.
-         * ctx.fillStyle = '#545252';
-         * ctx.fillRect(0, 0, 2000, 2000);
-         */
-
-        // Decimal is used to computer the arc of the loading circle
-        const arcDecimal = Math.ceil(this.elapsedTime) - this.elapsedTime;
-        const strokeSize = this.circle.radius / 20;
-
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = `normal ${this.circle.radius}pt Lato Light`;
-
         // Main circle
+        ctx = setContextProperties(ctx, {
+            textAlign: Alignment.center,
+            textBaseline: Baseline.middle,
+            fillStyle: COLORS.grays['6D'],
+            font: `normal ${this.circle.radius}pt Lato Light`
+        });
         ctx.beginPath();
-        ctx.fillStyle = '#6D6D6D';
-        ctx.arc(this.circle.centerX,
-            this.circle.centerY,
-            this.circle.radius,
-            0,
-            2 * Math.PI, false);
+        ctx.arc(this.circle.centerX, this.circle.centerY, this.circle.radius, 0, Math.PI * 2, false);
         ctx.fill();
 
         // Arc with the Color of the previous loading bar
-        ctx.lineWidth = strokeSize;
+        const arcDecimal = Math.ceil(this.elapsedTime) - this.elapsedTime;
+        const strokeSize = this.circle.radius / 20;
+        ctx = setContextProperties(ctx, {
+            lineWidth: strokeSize,
+            strokeStyle: this.strokeColor[(Math.ceil(this.elapsedTime) + 1) % 2]
+        });
         ctx.beginPath();
-        ctx.strokeStyle = this.strokeColor[(Math.ceil(this.elapsedTime) + 1) % 2];
-        ctx.arc(this.circle.centerX,
-            this.circle.centerY,
-            this.circle.radius - strokeSize * 0.5,
-            -Math.PI * 0.5,
-            2 * Math.PI * arcDecimal - Math.PI * 0.5,
-            true);
+        ctx.arc(this.circle.centerX, this.circle.centerY, this.circle.radius - strokeSize * 0.5, Math.PI * -0.5, Math.PI * 2 * arcDecimal - Math.PI * 0.5, true);
         ctx.stroke();
 
-        // Arc with the color of the "next" loading bar. I don't know a better way to make this make sense. 
-        // Honestly, though, nobody really needs to touch this stuff so don't worry about understanding whats going on here.
-        ctx.lineWidth = strokeSize;
+        ctx = setContextProperties(ctx, {
+            lineWidth: strokeSize,
+            strokeStyle: this.strokeColor[Math.ceil(this.elapsedTime) % 2]
+        });
         ctx.beginPath();
-        ctx.strokeStyle = this.strokeColor[Math.ceil(this.elapsedTime) % 2];
-        ctx.arc(this.circle.centerX,
-            this.circle.centerY,
-            this.circle.radius - strokeSize * 0.5,
-            -Math.PI * 0.5,
-            2 * Math.PI * arcDecimal - Math.PI * 0.5,
-            false);
+        ctx.arc(this.circle.centerX, this.circle.centerY, this.circle.radius - strokeSize * 0.5, Math.PI * -0.5, Math.PI * 2 * arcDecimal - Math.PI * 0.5, false);
         ctx.stroke();
 
         ctx.fillStyle = this.strokeColor[0];
